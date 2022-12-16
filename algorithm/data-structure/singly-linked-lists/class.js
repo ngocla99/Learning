@@ -127,15 +127,29 @@ class SinglyLinkedList {
         return removed;
     }
 
-    reverse() {
+    print() {
+        let arr = [];
         let current = this.head;
-        let next;
-        for (let i = 0; i < this.length - 1; i++) {
-            let prev = current;
-            current = prev.next;
-            next = current.next;
-            current.next = prev;
+        while (current) {
+            arr.push(current.val);
+            current = current.next;
         }
+        console.log(arr);
+    }
+
+    reverse() {
+        let node = this.head;
+        this.head = this.tail;
+        this.tail = node;
+        let prev = null;
+        let next;
+        for (let i = 0; i < this.length; i++) {
+            next = node.next;
+            node.next = prev;
+            prev = node;
+            node = next;
+        }
+        return this;
     }
 }
 
@@ -148,5 +162,8 @@ list.push('43');
 // list.unshift('Ngoc');
 // console.log(list.get(23));
 // list.set(2, 'KK');
-list.remove(-1);
-console.log(list);
+// list.remove(-1);
+// console.log(list);
+list.print();
+list.reverse();
+list.print();
