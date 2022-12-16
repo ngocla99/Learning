@@ -116,6 +116,19 @@ const getOrCreateLegendList = (chart, id) => {
 export const htmlLegendPlugin = {
   id: 'htmlLegend',
   afterUpdate(chart, args, options) {
+    // const items = chart.options.plugins.legend.labels.generateLabels(chart);
+    // const ul = document.createElement('ul');
+    // items.forEach((item) => {
+    //   const li = document.createElement('li');
+    //   const boxSpan = document.createElement('span');
+    //   boxSpan.style.background = item.fillStyle;
+    //   li.appendChild(boxSpan);
+    //   li.appendChild(document.createTextNode(item.text));
+    //   ul.appendChild(li);
+    // });
+    // const jsLegend = document.getElementById('js-legend');
+    // jsLegend.appendChild(ul);
+
     const ul = getOrCreateLegendList(chart, options.containerID);
 
     // Remove old legend items
@@ -147,7 +160,7 @@ export const htmlLegendPlugin = {
 
       // Color box
       const boxSpan = document.createElement('span');
-      boxSpan.style.background = item.fillStyle;
+      boxSpan.style.background = '#000';
       boxSpan.style.borderColor = item.strokeStyle;
       boxSpan.style.borderWidth = item.lineWidth + 'px';
       boxSpan.style.display = 'inline-block';

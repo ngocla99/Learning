@@ -14,7 +14,8 @@ import React from 'react';
 
 import { Line } from 'react-chartjs-2';
 import BarChar from './components/chart/bar-char/BarChar';
-import { htmlLegendPlugin } from './util/common-function';
+import LineCustom from './components/chart/Line/LegendCustom';
+// import { htmlLegendPlugin } from './util/common-function';
 
 ChartJS.register(
   CategoryScale,
@@ -26,15 +27,15 @@ ChartJS.register(
   Legend,
   Filler,
   chartTrendline,
-  htmlLegendPlugin,
+  // htmlLegendPlugin,
 );
 
 export const options = {
   responsive: true,
   plugins: {
-    htmlLegend: {
-      containerID: 'legend-container',
-    },
+    // htmlLegend: {
+    //   containerID: 'legend-container',
+    // },
     legend: {
       // align: 'end',
       // padding: {
@@ -49,69 +50,92 @@ export const options = {
       // },
       display: false,
     },
-    // title: {
-    //   display: true,
-    //   align: 'start',
-    //   text: 'Chart.js Line Chart',
-    //   font: {
-    //     size: 10,
-    //   },
-    //   padding: {
-    //     bottom: -150,
-    //     left: 10,
-    //   },
-    // },
-    // tooltip: {
-    //   enabled: false,
-    //   position: 'nearest',
-    //   // external: externalTooltipHandler,
-    // },
+    legendCallback: function (chart) {
+      // Return the HTML string here.
+      console.log(chart.data.datasets);
+      var text = [];
+      text.push('<ul class="' + chart.id + '-legend">');
+      for (var i = 0; i < chart.data.datasets[0].data.length; i++) {
+        text.push(
+          '<li><span id="legend-' +
+            i +
+            '-item" style="background-color:' +
+            chart.data.datasets[0].backgroundColor[i] +
+            '"   onclick="updateDataset(event, ' +
+            "'" +
+            i +
+            "'" +
+            ')">',
+        );
+        if (chart.data.labels[i]) {
+          text.push(chart.data.labels[i]);
+        }
+        text.push('</span></li>');
+      }
+      text.push('</ul>');
+      return text.join('');
+    },
+    title: {
+      display: true,
+      align: 'start',
+      text: 'Chart.js Line Chart',
+      font: {
+        size: 20,
+      },
+      padding: {
+        bottom: 50,
+      },
+    },
+    tooltip: {
+      enabled: false,
+      position: 'nearest',
+      // external: externalTooltipHandler,
+    },
   },
-  plugins: [htmlLegendPlugin],
-  // scales: {
-  //   x: {
-  //     grid: {
-  //       drawBorder: false,
-  //       display: false,
-  //       drawTicks: false,
-  //     },
-  //     ticks: {
-  //       align: 'start',
-  //       maxTicksLimit: 4,
-  //     },
-  //     title: {
-  //       display: true,
-  //       text: 'Time',
-  //       font: {
-  //         size: 16,
-  //         weight: 'bold',
-  //       },
-  //     },
-  //   },
-  //   y: {
-  //     grid: {
-  //       borderDash: (context) => {
-  //         if (context.tick.value === 0) return [];
-  //         return [4, 4];
-  //       },
-  //       color: '#348632',
-  //       drawTicks: false,
-  //     },
-  //     ticks: {
-  //       crossAlign: 'center',
-  //       align: 'center',
-  //       padding: 20,
-  //     },
-  //     title: {
-  //       display: true,
-  //       text: 'Time',
-  //       font: {
-  //         size: 16,
-  //         weight: 'bold',
-  //       },
-  //     },
-  //   },
-  // },
+  // plugins: [htmlLegendPlugin],
+  scales: {
+    x: {
+      grid: {
+        drawBorder: false,
+        display: false,
+        drawTicks: false,
+      },
+      ticks: {
+        align: 'start',
+        maxTicksLimit: 4,
+      },
+      title: {
+        display: true,
+        text: 'Time',
+        font: {
+          size: 16,
+          weight: 'bold',
+        },
+      },
+    },
+    y: {
+      grid: {
+        borderDash: (context) => {
+          if (context.tick.value === 0) return [];
+          return [4, 4];
+        },
+        color: '#348632',
+        drawTicks: false,
+      },
+      ticks: {
+        crossAlign: 'center',
+        align: 'center',
+      },
+      title: {
+        display: true,
+        text: 'Time',
+        font: {
+          size: 16,
+          weight: 'bold',
+        },
+      },
+    },
+  },
 };
 
 const labels = [
@@ -164,16 +188,11 @@ export const data = {
 };
 
 const App = () => {
-  setTimeout(() => {
-    const canvas = document.getElementById('ngoclias');
-    console.log(canvas);
-  }, 100);
-
   return (
     <div style={{ width: '1000px', height: '200px' }}>
-      <Line id='ngoclias' options={options} data={data} redraw={true} plugins={htmlLegendPlugin} />
-      <span>Group of user</span>
-      <BarChar />
+      {/* <Line id='ngoclias' options={options} data={data} /> */}
+      <LineCustom />
+      {/* <BarChar /> */}
       {/* <AntdSelect /> */}
     </div>
   );
