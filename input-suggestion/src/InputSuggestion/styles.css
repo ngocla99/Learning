@@ -1,0 +1,31 @@
+.container-select {
+    background: #f5f6fa;
+    color: #353b48;
+}
+
+ul.suggestions {
+    margin: 0;
+    padding-inline-start: 0px;
+}
+
+.suggestion__items {
+    padding-left: 10px;
+    display: flex;
+    cursor: pointer;
+    height: 42px;
+    align-items: center;
+}
+
+.suggestion__items:hover,
+.suggestion__items.active {
+    background-color: #c4c5c8;
+    font-size: 18px;
+}
+
+.suggestion__items-label {
+    width: 20%;
+}
+
+.suggestion__items-desc {
+    width: 70%;
+}
